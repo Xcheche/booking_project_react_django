@@ -1,7 +1,12 @@
 from django.db import models
 
 # Create your models here.
+
+
+
 class Room(models.Model):
+  
+    
     ROOM_TYPES = [
         ('suite', 'Suite'),
         ('deluxe', 'Deluxe'),
@@ -23,3 +28,12 @@ class Room(models.Model):
 
     def __str__(self):
         return f"{self.name} - {self.room_type}"
+    
+#Roomimage
+class RoomImage(models.Model):
+    image = models.ImageField(upload_to='room_images/%Y/%m/%d/', blank=True, null=True) 
+    caption = models.CharField(max_length=255, blank=True, null=True)
+    room = models.ForeignKey('Room', related_name='images', on_delete=models.CASCADE)
+
+    def __str__(self):
+        return self.caption or f"Image for {self.room.name}"    
